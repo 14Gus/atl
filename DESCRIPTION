@@ -1,0 +1,19 @@
+Package: atl
+Title: An analytical transformation library for faster data preparation.
+Version: 0.0.0.9000
+Authors@R: person("Angus", "Moir", email = "angus.moir@bankofengland.co.uk", role = c("aut", "cre"))
+Description: What the package does (one paragraph).
+Depends: R (>= 3.4.2)
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Imports: dplyr,
+    rlang,
+    readr,
+    readxl,
+    digest,
+    glue
+Suggests: testthat,
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
