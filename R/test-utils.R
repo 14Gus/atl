@@ -12,10 +12,3 @@ all_names <- function(x){
   all(unlist(lapply(x, class))=="name")
 }
 
-generateCall <- function(fun_name, ...){
-  fun_name <- substitute(fun_name)
-  browser()
-  arg_list <- substitute(...)
-  as.call(c(fun_name, arg_list))
-
-}
