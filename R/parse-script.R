@@ -5,7 +5,7 @@
 #' Iterate through a script and find all file paths or other dependent files that were imported using the list of functions supplied in file_import_functions
 #'
 #' @param script_path Path to the script of the file
-#' @param file_import_functions Name of functions as string that could be used to import files such as "read.csv" or "read.table"
+#' @param file_import_functions List of functions that could be used to import files such as "read.csv" or "read.table" structured as class importFun. Default list provided in IMPORT_FUNS
 #' @export
 
 findDependentFilesInScript <-  function(script_path, file_import_functions=IMPORT_FUNS){
@@ -15,7 +15,7 @@ findDependentFilesInScript <-  function(script_path, file_import_functions=IMPOR
 
     import_fun_names <- getImportFunctionNames(import_calls)
 
-    import_funs <- file_import_functions[names(file_import_functions) %in% import_fun_names]
+    import_funs <- file_import_functions[import_fun_names]
 
     data_dependencies <- getDataDependencies(import_calls, import_funs)
 
@@ -34,16 +34,17 @@ findDependentFilesInScript <-  function(script_path, file_import_functions=IMPOR
 getImportCalls <- function(expr, file_import_functions){
 
   findImportCall <- function(expr){
-    import_fun_names <- names(file_import_functions)
-    getCallIf(expr, isImportFunction, import_fun_name=import_fun_names)
+    getCallIf(expr, isImportFunction, import_funs = file_import_functions)
   }
 
-  c(unlist(lapply(expr, findImportCall)))
+  # Squash is going to turn the output into a flat vector
+  import_calls <- rlang::squash(lapply(expr, findImportCall))
 
+  import_calls[lapply(import_calls, length)>0]
 }
 
 getImportFunctionNames <- function(import_calls){
-  fun_names <- lapply(import_calls, function(x) x[[1]])
+  fun_names <- as.character(lapply(import_calls, rlang::lang_name))
 
 }
 
@@ -54,10 +55,10 @@ getDataDependencies <- function(import_calls, import_funs){
 
 #' Parse a call and return TRUE if the function name in the call is in the vector of functions provided
 #' in the parameter import_fun_name
-isImportFunction <- function(call, import_fun_names){
-
-  function_string <- deparse(call[1])
-  function_string %in% import_fun_names
+isImportFunction <- function(call, import_funs){
+  import_fun_names <- names(import_funs)
+  function_name <- rlang::lang_name(call)
+  function_name %in% import_fun_names
 
 }
 

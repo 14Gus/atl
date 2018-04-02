@@ -20,6 +20,7 @@ getTable <- function(table, dataset=NULL, source=NULL) {
 #' @param filename The name of your file
 #' @param filetype The type of your file. Options are "csv" to save as a comma separated csv file, "rds" to save an Rdata file.
 #' @param filepath File path to save to.
+#' @param ... parameters to pass to the file parsing function
 #' @export
 
 exportTable <- function(table, filename, filetype = c("csv","rds"), filepath=getDefaultExportFilePath(), ...){

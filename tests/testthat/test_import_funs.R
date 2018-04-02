@@ -38,7 +38,7 @@ test_that("parseImportCall works when conn passed by name",{
 test_that("parseImportCall works when conn passed with other named argument",{
 
   import_fun <- baseImportFun("read.csv", "file", 1)
-  import_call <- rlang::lang("read.csv", delim=",", "test.csv"))
+  import_call <- rlang::lang("read.csv", delim=",", "test.csv")
 
   expect_equal(parseImportCall(import_fun, import_call), "test.csv")
 
@@ -48,7 +48,7 @@ test_that("parseImportCall works when conn passed indirectly",{
 
   file_name <- "test.csv"
   import_fun <- baseImportFun("read.csv", "file", 1)
-  import_call <- rlang::lang("read.csv", file=qoute(file_name)))
+  import_call <- rlang::lang("read.csv", file=quote(file_name))
 
   expect_equal(parseImportCall(import_fun, import_call), "test.csv")
 
@@ -78,22 +78,22 @@ test_that("method parseImportCall works for functions of class baseImportFun in 
   read_xlsx_call = rlang::lang(read_xlsx, "test.csv")
   fread_call = rlang::lang(fread, "test.csv")
 
-  read.csv_fun <- IMPORT_FUNS["read.csv"]
-  read.csv2_fun <- IMPORT_FUNS["read.csv2"]
-  read.delim_fun = IMPORT_FUNS["read.delim"]
-  read.delim2_fun = IMPORT_FUNS["read.delim2"]
-  read.table_fun = IMPORT_FUNS["read.table"]
-  read.fwf_fun = IMPORT_FUNS["read.fwf"]
-  read_csv_fun = IMPORT_FUNS["read_csv"]
-  read_csv2_fun = IMPORT_FUNS["read_csv2"]
-  read_tsv_fun = IMPORT_FUNS["read_tsv"]
-  read_table_fun = IMPORT_FUNS["read_table"]
-  read_file_fun = IMPORT_FUNS["read_file"]
-  read_fwf_fun = IMPORT_FUNS["read_fwf"]
-  read_xls_fun = IMPORT_FUNS["read_xls"]
-  read_excel_fun = IMPORT_FUNS["read_excel"]
-  read_xlsx_fun = IMPORT_FUNS["read_xlsx"]
-  fread_fun = IMPORT_FUNS["fread"]
+  read.csv_fun <- IMPORT_FUNS[["read.csv"]]
+  read.csv2_fun <- IMPORT_FUNS[["read.csv2"]]
+  read.delim_fun = IMPORT_FUNS[["read.delim"]]
+  read.delim2_fun = IMPORT_FUNS[["read.delim2"]]
+  read.table_fun = IMPORT_FUNS[["read.table"]]
+  read.fwf_fun = IMPORT_FUNS[["read.fwf"]]
+  read_csv_fun = IMPORT_FUNS[["read_csv"]]
+  read_csv2_fun = IMPORT_FUNS[["read_csv2"]]
+  read_tsv_fun = IMPORT_FUNS[["read_tsv"]]
+  read_table_fun = IMPORT_FUNS[["read_table"]]
+  read_file_fun = IMPORT_FUNS[["read_file"]]
+  read_fwf_fun = IMPORT_FUNS[["read_fwf"]]
+  read_xls_fun = IMPORT_FUNS[["read_xls"]]
+  read_excel_fun = IMPORT_FUNS[["read_excel"]]
+  read_xlsx_fun = IMPORT_FUNS[["read_xlsx"]]
+  fread_fun = IMPORT_FUNS[["fread"]]
 
 
   expect_equal(parseImportCall(read.csv_fun, read.csv_call), "test.csv")

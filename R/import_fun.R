@@ -30,7 +30,7 @@ parseImportCall.default <- function(import_fun, import_call){
 
   con_arg_name <- import_fun$con_arg_name
 
-  stopifnot(!is.null(con_arg_name), !is.null(arg_pos))
+  stopifnot(!is.null(con_arg_name))
 
   conn <- lang_args(import_call)[[con_arg_name]]
 
