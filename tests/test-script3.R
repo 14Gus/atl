@@ -1,7 +1,7 @@
 # Test script 3. Import function in a wrapper
 
 wrapper_fun <- function(){
-  getTable(mtcars)
+  read.csv("tests/data/mtcars.csv")
 }
 
 table <- wrapper_fun()

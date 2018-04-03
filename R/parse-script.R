@@ -17,7 +17,7 @@ findDependentFilesInScript <-  function(script_path, file_import_functions=IMPOR
 
     import_funs <- file_import_functions[import_fun_names]
 
-    data_dependencies <- getDataDependencies(import_calls, import_funs)
+    data_dependencies <- getDataDependencies(import_funs = import_funs, import_calls = import_calls)
 
     list(
       import_calls=import_calls
@@ -48,8 +48,9 @@ getImportFunctionNames <- function(import_calls){
 
 }
 
-getDataDependencies <- function(import_calls, import_funs){
-  Map(parseImportCall, import_calls, import_funs)
+getDataDependencies <- function(import_funs, import_calls){
+
+  mapply(parseImportCall, import_funs, import_calls)
 }
 
 

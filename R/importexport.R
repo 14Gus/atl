@@ -39,14 +39,33 @@ exportTable <- function(table, filename, filetype = c("csv","rds"), filepath=get
 
   hash <- generateHashFromScript(calling_script_path)
 
-  file_path <- buildExportFileName(filepath, filename, filetype, hash)
+  data_file_path <- buildExportFileName(filepath, filename, filetype, hash)
 
-  #write_fun(table, file_path, ...)
+  #Write to disk
+  write_fun(table, file_path, ...)
 
-  message(paste("Table saved to", file_path))
+  message(paste("Data saved to", data_file_path))
 
-  #Message dependent files tables found
+  suggested_file_name <- as.character(paste0(filename,'_path'))
 
-  # Message file input statement
+  message(glue::glue("Copy and paste the following command to your script to reuse it for later:\n
+          {suggest_file_name} <- {data_file})"))
+
+  data_dependencies <- findDependentFilesInScript(calling_script_path)
+
+  meta_data <- list(
+    filename="new_test.csv"
+    ,file_hash=hash
+    ,creationDate =Sys.Date()
+    ,creationTime = Sys.time()
+    ,data_dependencies = data_dependencies
+    )
+
+
+  #Find file dependencies
+
+  #Message dependent data found
+
+  # write metadata to disk
 }
 

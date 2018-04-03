@@ -13,7 +13,7 @@ getDefaultExportFilePath <- function(){
 #' @param hash A hash to append to the file name
 #' @param include_date Whether to include the date in the file name.
 
-buildExportFileName <- function(filepath = getDefaultExportFilePath(), filename, file_extension, hash=NULL, include_date = TRUE){
+buildExportFileName <- function(filename, file_extension, filepath = getDefaultExportFilePath(), hash=NULL, include_date = TRUE){
 
   if(include_date){
     today_date <- as.character(Sys.Date())

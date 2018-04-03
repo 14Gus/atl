@@ -37,3 +37,26 @@ test_that("Gets the name of the function from the import call",{
   expect_equal(import_fun_names, c("write.csv","getTable"))
 })
 
+test_that("getDataDependencies working correclty",{
+  test_importcalls <- list(
+    rlang::lang("read.csv", "test.csv"),
+    rlang::lang("read_csv", "test2.csv")
+  )
+
+  test_importfuns <- list(
+      read.csv = baseImportFun("read.csv", "file", 1)
+      ,read_csv = baseImportFun("read_csv", "file", 1)
+    )
+
+  expected <- structure(
+    c("test.csv", "test2.csv"),
+    .Names = c("read.csv","read_csv")
+    )
+
+  actual <- getDataDependencies(test_importfuns, test_importcalls)
+
+  expect_equal(expected, actual)
+
+
+})
+
