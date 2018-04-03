@@ -39,7 +39,7 @@ exportTable <- function(table, filename, filetype = c("csv","rds"), filepath=get
 
   hash <- generateHashFromScript(calling_script_path)
 
-  file_path <- buildExportFilePath(filepath, filename, filetype, hash)
+  file_path <- buildExportFileName(filepath, filename, filetype, hash)
 
   #write_fun(table, file_path, ...)
 

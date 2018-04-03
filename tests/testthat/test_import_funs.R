@@ -114,3 +114,32 @@ test_that("method parseImportCall works for functions of class baseImportFun in 
 
 
 })
+
+context("Testing getTableImportFUn constructor and methods")
+
+test_that("getTableImportFun class constuctor",{
+
+  getTable_fun <- getTableImportFun("getTable", "test_table", "test_dataset", "test_source")
+
+  expect_equal(getTable_fun$table, "test_table")
+  expect_equal(getTable_fun$dataset, "test_dataset")
+  expect_equal(getTable_fun$source, "test_source")
+})
+
+test_that("getTableFUn parseImportCall default method works correctly",{
+  getTable_fun <- getTableImportFun("getTable",dataset = "local_env", source="local_env")
+
+  getTable_call <- rlang::lang("getTable", quote(mtcars))
+
+  expect_equal(parseImportCall(getTable_fun, getTable_call), "mtcars.local_env.local_env")
+
+})
+
+test_that("getTableFun parseImportCall works for functions of class baseImportFun in IMPORT_FUNS",{
+  getTable_fun <- IMPORT_FUNS$getTable
+
+  getTable_call <- rlang::lang("getTable", quote(mtcars))
+
+  expect_equal(parseImportCall(getTable_fun, getTable_call), "mtcars.local.local_env")
+
+})

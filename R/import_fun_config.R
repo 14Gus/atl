@@ -15,5 +15,6 @@ IMPORT_FUNS <- list(
   ,read_excel = baseImportFun("read_excel", con_arg_name = "path", arg_pos = 1)
   ,read_xlsx = baseImportFun("read_xlsx", con_arg_name = "path", arg_pos = 1)
   ,fread = baseImportFun("fread", con_arg_name = "input", arg_pos = 1)
+  ,getTable = getTableImportFun("getTable", dataset = "local", source ="local_env")
 )
 

@@ -62,24 +62,3 @@ isImportFunction <- function(call, import_funs){
 
 }
 
-
-getImportFunctionConnectionArg <- function(import_table_call){
-
-  conn <- parseImportCall(import_table_call)
-
-  fun_name <- import_table_call[[1]]
-
-  # If the connection argument for the import function uses non-standard evaluation evaluating it in the global environment is going to return a dataframe or more likely an "object not found" error. So we are going to guess that the function call was made in the global environment and convert the name to a string.
-  if(connArgUsesNSE(fun_name)){
-    return(as.character(conn_arg))
-  }
-
-  # We are going to evaluate our connection argument, conn_arg, in the global environment. If it's a string, it will return a string. If it's a name, symbol or function that exists in the global environment or on the global environment search path and returns a string this should also work. If the connection argument is created outside the lexical scope of the global environment, then either the code will fail or the wrong connection argument will be returned.
-
-  return(conn_arg_string)
-}
-
-connArgUsesNSE <- function(fun_name, use_nse_funs=USE_NSE_FUNS){
-  fun_name %in% use_nse_funs
-}
-

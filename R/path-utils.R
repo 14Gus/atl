@@ -6,16 +6,22 @@ getDefaultExportFilePath <- function(){
 }
 
 
-#' Build the file name from its components. WIll add the date by default.
-#'
+#' Build the file name from its components. Will add the date by default.
+#' @param filepath Filepath to save directory
+#' @param filename Name of the file
+#' @param file_extension File extension or file type (.csv, .rds etc)
+#' @param hash A hash to append to the file name
+#' @param include_date Whether to include the date in the file name.
 
-buildExportFilePath <- function(filepath, filename, filextension, hash=NULL){
-  if(!is.null(hash)){
-    full_file_name <- paste0(filename, "-", Sys.Date(),"-", hash, ".", filextension)
+buildExportFileName <- function(filepath = getDefaultExportFilePath(), filename, file_extension, hash=NULL, include_date = TRUE){
 
-  } else{
-    full_file_name <- paste0(filename, "-", Sys.Date(), ".", filextension)
+  if(include_date){
+    today_date <- as.character(Sys.Date())
   }
+
+  full_file_name <- paste0(c(filename, today_date, hash), collapse="-")
+
+  full_file_name <- paste(full_file_name, file_extension, sep=".")
 
   file.path(filepath, full_file_name)
 }

@@ -11,11 +11,25 @@ baseImportFun <- function(name, con_arg_name, arg_pos){
   structure(class="baseImportFun", environment())
 }
 
-getTableImportFun <- function(name){
+#' S3 class representation of the default ATL import function for calling data from databases.
+
+getTableImportFun <- function(name, table=NULL, dataset=NULL, source=NULL){
   name <- name
+  table <- table
+  dataset <- dataset
+  source <- source
 
   structure(class="getTableImportFun", environment())
 }
+
+#' Parse a function "call" where the function is an import function that gets data such as "read.csv", or "getTable" and return an identifier to the connection or datasource.
+#' For instance say the call is "read.csv("path/to/file/test.csv"), parseImportCall will return "test.csv".
+#' Where the connection argument for the import function is called indirectly by referencing another name or function, such as in "read.csv(filepath), parseImportCall will try to retieve the underlying value by evaluating the connection argument in the global environment.
+#'
+#' @param import_fun An import function of class "importFun".
+#' @param import_call An r language of type "call" where the function in the call corresponds to the function name of the argument "import_fun".
+#' @return A string representing a unique identifier for the location of the table or data that was called by the import function. For most import functions this will be the file path of the file.
+#' @export
 
 parseImportCall <- function(import_fun, import_call){
 
@@ -24,6 +38,8 @@ parseImportCall <- function(import_fun, import_call){
 }
 
 parseImportCall.default <- function(import_fun, import_call){
+
+  stopifnot(rlang::lang_name(import_call) == import_fun$name)
 
   # This is going to add the argument names to any arguments called by position and rearrange them in their position as in the function definition
   import_call <- rlang::lang_standardise(import_call)
@@ -48,12 +64,31 @@ parseImportCall.default <- function(import_fun, import_call){
 }
 
 parseImportCall.getTableImportFun <- function(import_fun, import_call){
-  # get table
 
-  # get database
+  import_call <- rlang::lang_standardise(import_call)
 
-  # get source
 
-  # concatenate source, table, database
+  table <- as.character(import_call$table)
+
+  # If the call has no table argument get default value from the import function setup
+  if(length(table) == 0){
+    table <- as.character(import_fun$table)
+  }
+
+  dataset <- as.character(import_call$dataset)
+
+  # If the call has no dataset argument get default value from the import function setup
+  if(length(dataset) == 0){
+    dataset <- as.character(import_fun$dataset)
+  }
+
+  source <- as.character(import_call$source)
+
+  # If the call has no source argument get default value from the import function setup
+  if(length(source) == 0){
+    source <- as.character(import_fun$source)
+  }
+
+  paste(table, dataset, source, sep=".")
 
 }
